@@ -1,7 +1,16 @@
 /*
  * Create a list that holds all of your cards
  */
-
+ function createList() {
+   var list = ["fa-diamond", "fa-paper-plane-o", "fa-anchor", "fa-bolt", "fa-cube", "fa-leaf", "fa-bicycle", "fa-bomb"];
+   var finalarray = [];
+   for (var i = 0; i < 2 ; i++){
+     for (var y = 0; y < list.length; y++){
+       finalarray[finalarray.length]= list[y]
+     }
+   }
+ return (finalarray);
+}
 
 /*
  * Display the cards on the page
@@ -9,6 +18,8 @@
  *   - loop through each card and create its HTML
  *   - add each card's HTML to the page
  */
+ var cardsList= createList();
+ console.log(cardsList);
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -24,6 +35,22 @@ function shuffle(array) {
 
     return array;
 }
+cardsList = shuffle(cardsList);
+console.log(cardsList);
+
+var cardElements= document.getElementsByClassName('card');
+for (var i=0; i<cardElements.length; i++){
+  //document.querySelector('.card').innerHTML
+  cardElements[i].removeChild(cardElements[i].firstElementChild);
+  var icon= document.createElement('i');
+  icon.classList.add('fa');
+  icon.classList.add(cardsList[i]);
+  cardElements[i].appendChild(icon);
+
+}
+
+
+
 
 
 /*
@@ -36,3 +63,19 @@ function shuffle(array) {
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
+/* public int compareTo(Card that) {
+     if (this.suit < that.suit) {
+         return -1;
+     }
+     if (this.suit > that.suit) {
+         return 1;
+     }
+     if (this.rank < that.rank) {
+         return -1;
+     }
+     if (this.rank > that.rank) {
+         return 1;
+     }
+     return 0;
+ }
+*/
