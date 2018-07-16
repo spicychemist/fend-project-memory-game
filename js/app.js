@@ -61,9 +61,10 @@ for (var i=0; i<cardElements.length; i++){
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
 
-/*select cards*/
+/*select cards, set initial variables*/
 var cards= document.getElementsByClassName('card');
 var openCards = [];
+var matchList = [];
 
 /*function to toggle card - show/hide */
 function displayCard(card){
@@ -78,7 +79,13 @@ function matchCard(card){
   if (openCards[0].firstElementChild.classList[1] === openCards[1].firstElementChild.classList[1]){
    openCards[0].classList.add('match');
    openCards[1].classList.add('match');
+   matchList.push(openCards[0].firstElementChild.classList[1]);
+   console.log(matchList);
    openCards = [];
+   if (matchList.length == 8){
+     alert("Congratulations! You Won!");
+     //reset();
+   }
  }
   else {
    setTimeout(function(){
