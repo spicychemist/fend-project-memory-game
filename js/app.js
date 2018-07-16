@@ -35,6 +35,8 @@ function shuffle(array) {
 
     return array;
 }
+
+
 cardsList = shuffle(cardsList);
 console.log(cardsList);
 
@@ -46,12 +48,7 @@ for (var i=0; i<cardElements.length; i++){
   icon.classList.add('fa');
   icon.classList.add(cardsList[i]);
   cardElements[i].appendChild(icon);
-
 }
-
-
-
-
 
 /*
  * set up the event listener for a card. If a card is clicked:
@@ -63,19 +60,43 @@ for (var i=0; i<cardElements.length; i++){
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
-/* public int compareTo(Card that) {
-     if (this.suit < that.suit) {
-         return -1;
-     }
-     if (this.suit > that.suit) {
-         return 1;
-     }
-     if (this.rank < that.rank) {
-         return -1;
-     }
-     if (this.rank > that.rank) {
-         return 1;
-     }
-     return 0;
+
+/*select cards*/
+var cards= document.getElementsByClassName('card');
+var openCards = [];
+
+/*function to toggle card - show/hide */
+function displayCard(card){
+  card.classList.toggle('show');
+  card.classList.toggle('open');
+};
+
+/*function to check for match*/
+function matchCard(card){
+  if(openCards.length < 2) {
+    return}
+  if (openCards[0].firstElementChild.classList[1] === openCards[1].firstElementChild.classList[1]){
+   openCards[0].classList.add('match');
+   openCards[1].classList.add('match');
+   openCards = [];
  }
-*/
+ else {
+   setTimeout(function(){
+     alert('No match - try again');
+     console.log('no match');
+     openCards[0].classList.remove('open', 'show');
+     openCards[1].classList.remove('open', 'show');
+     openCards = [];
+   }, 100)
+ }
+};
+
+/*Listen for click, toggle class*/
+for (i= 0; i< cards.length; i++){
+  cards[i].addEventListener('click', function(){
+    displayCard(this);
+    openCards.push(this);
+    console.log(openCards);
+    matchCard(this);
+  })
+};
