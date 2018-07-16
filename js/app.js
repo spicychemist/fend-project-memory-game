@@ -74,13 +74,13 @@ function displayCard(card){
 /*function to check for match*/
 function matchCard(card){
   if(openCards.length < 2) {
-    return}
+    return};
   if (openCards[0].firstElementChild.classList[1] === openCards[1].firstElementChild.classList[1]){
    openCards[0].classList.add('match');
    openCards[1].classList.add('match');
    openCards = [];
  }
- else {
+  else {
    setTimeout(function(){
      alert('No match - try again');
      console.log('no match');
@@ -94,9 +94,18 @@ function matchCard(card){
 /*Listen for click, toggle class*/
 for (i= 0; i< cards.length; i++){
   cards[i].addEventListener('click', function(){
+    numMoves();
     displayCard(this);
     openCards.push(this);
     console.log(openCards);
     matchCard(this);
   })
 };
+
+var moveCounter=0
+function numMoves(){
+  var moves=document.getElementsByClassName('moves')[0].innerHTML=moveCounter
+  moveCounter++;
+};
+
+numMoves();
