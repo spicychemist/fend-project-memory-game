@@ -40,16 +40,18 @@ cardsList = shuffle(cardsList);
 console.log(cardsList);
 
 //create list of matches
-var cardElements= document.getElementsByClassName('card');
-for (var i=0; i<cardElements.length; i++){
-  //document.querySelector('.card').innerHTML
-  cardElements[i].removeChild(cardElements[i].firstElementChild);
-  var icon= document.createElement('i');
-  icon.classList.add('fa');
-  icon.classList.add(cardsList[i]);
-  cardElements[i].appendChild(icon);
-}
-
+function drawCardIcons(){
+  var cardElements= document.getElementsByClassName('card');
+  for (var i=0; i<cardElements.length; i++){
+    //document.querySelector('.card').innerHTML
+    cardElements[i].removeChild(cardElements[i].firstElementChild);
+    var icon= document.createElement('i');
+    icon.classList.add('fa');
+    icon.classList.add(cardsList[i]);
+    cardElements[i].appendChild(icon);
+  }
+};
+drawCardIcons();
 /*
  * set up the event listener for a card. If a card is clicked:
  *  - display the card's symbol (put this functionality in another function that you call from this one)
@@ -65,6 +67,7 @@ for (var i=0; i<cardElements.length; i++){
 var cards= document.getElementsByClassName('card');
 var openCards = [];
 var matchList = [];
+var restart= document.getElementById('restart-btn');
 
 /*function to toggle card - show/hide */
 function displayCard(card){
@@ -83,8 +86,8 @@ function matchCard(card){
    console.log(matchList);
    openCards = [];
    if (matchList.length == 8){
-     alert("Congratulations! You Won!");
-     //reset();
+     stopTimer();
+     alert("Congratulations! You Won! It took " +timeCounter+ " seconds and " + moveCounter + " moves.");
    }
  }
   else {//if no match is found
@@ -139,6 +142,29 @@ function timeGame() {
 function startTimer(){
   timerInterval = setInterval(timeGame, 1000);
 }
+function stopTimer(){
+  clearInterval(timerInterval);
+}
+
 var clickCounter=0
 
-//setup game
+//restart game
+restart.addEventListener('click', function(){
+  resetGame();
+});
+
+function resetGame(){
+  stopTimer();
+  timeCounter = 0;
+  document.getElementsByClassName('timeCounter')[0].innerHTML=timeCounter;
+  moveCounter = 0;
+  document.getElementsByClassName('moves')[0].innerHTML=moveCounter;
+  stars[0].classList.remove('hide');
+  stars[1].classList.remove('hide');
+  for (i=0; i<cards.length; i++){
+    var c=cards[i];
+    c.classList.remove('show', 'open', 'match');
+  }
+  cardsList = shuffle(cardsList);
+  drawCardIcons();
+};
