@@ -32,14 +32,14 @@ function shuffle(array) {
         array[currentIndex] = array[randomIndex];
         array[randomIndex] = temporaryValue;
     }
-
     return array;
 }
 
-
+//shuffle cards
 cardsList = shuffle(cardsList);
 console.log(cardsList);
 
+//create list of matches
 var cardElements= document.getElementsByClassName('card');
 for (var i=0; i<cardElements.length; i++){
   //document.querySelector('.card').innerHTML
@@ -87,10 +87,9 @@ function matchCard(card){
      //reset();
    }
  }
-  else {
-   setTimeout(function(){
+  else {//if no match is found
+     setTimeout(function(){
      alert('No match - try again');
-     console.log('no match');
      openCards[0].classList.remove('open', 'show');
      openCards[1].classList.remove('open', 'show');
      openCards = [];
@@ -101,18 +100,45 @@ function matchCard(card){
 /*Listen for click, toggle class*/
 for (i= 0; i< cards.length; i++){
   cards[i].addEventListener('click', function(){
-    numMoves();
-    displayCard(this);
-    openCards.push(this);
-    console.log(openCards);
-    matchCard(this);
+    clickCounter++;
+    if (clickCounter == 1){
+      startTimer();
+    }
+    displayCard(this); //shows card
+    openCards.push(this); //creates list of open cards
+    if (openCards.length == 2){
+      numMoves(); //move counter
+    }
+    matchCard(this); //checks for matches
   })
 };
-
-var moveCounter=0
+//counts moves made, updates counter
+var moveCounter=0;
 function numMoves(){
-  var moves=document.getElementsByClassName('moves')[0].innerHTML=moveCounter
   moveCounter++;
+  document.getElementsByClassName('moves')[0].innerHTML=moveCounter;
+  //updates stars based on moves
+  if (moveCounter > 8){
+		stars[0].classList.add('hide');
+  }
+  if (moveCounter > 12){
+    stars[1].classList.add('hide');
+  }
+  /*if (moveCounter > 18) {
+    stars[2].classList.add('hide');
+  }*/
 };
+var stars=document.getElementsByClassName('star');
+//set Timer
+var timeCounter = 0;
+var timerInterval;
+function timeGame() {
+  timeCounter++;
+  document.getElementsByClassName('timeCounter')[0].innerHTML=timeCounter;
+};
+function startTimer(){
+  timerInterval = setInterval(timeGame, 1000);
+}
+var clickCounter=0
 
-numMoves();
+//setup game
